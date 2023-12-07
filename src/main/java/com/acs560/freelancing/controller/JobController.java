@@ -61,14 +61,17 @@ public class JobController {
         long avgClientFeedback = 0;
         int totalFeedbackNo = 0;
         List<Feedback> feedbacks = feedbackService.findByClient(job.getAuthor());
+        System.out.println("Feedback size - " + feedbacks.size());
         if(feedbacks.size() > 0) {
             int sum = 0;
             int no = 0;
             for (Feedback f : feedbacks) {
-                sum += f.getClientRating();
-                no++;
+                if(f.getClientRating() != null) {
+                    sum += f.getClientRating();
+                    no++;
+                }
             }
-            avgClientFeedback = sum / no;
+            avgClientFeedback = no>0 ? sum / no:0;
             totalFeedbackNo = feedbacks.size();
         }
 
