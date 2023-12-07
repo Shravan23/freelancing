@@ -5,17 +5,18 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
-
-@Setter
-@Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class MessageResponse {
-    String content;
+@Getter
+@Setter
+public class MessageRequest {
+    String text;
     String media;
-    Long senderId;
-    String senderRole;
+//    Long senderId;
+//    Long receiverId;
 
-    LocalDateTime date;
+    Long bidId;
+    Long jobId;
+
+
 }

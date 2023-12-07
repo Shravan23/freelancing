@@ -45,7 +45,6 @@ public class BidService {
     }
 
     public List<Bid> findByUser(User user){
-        System.out.println("Im in findByUser of BidService - saying hello");
         return bidRepository.findByUser(user);
     }
 

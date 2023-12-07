@@ -1,21 +1,22 @@
 package com.acs560.freelancing.model;
 
+import javax.persistence.*;
+import java.time.LocalDateTime;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import javax.persistence.*;
 import javax.validation.constraints.Size;
-import java.util.Date;
-
+import java.time.LocalDateTime;
 @Entity
-@Table(name = "message")
+@Table(name="user_messages")
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter
 @Getter
-public class Message {
+public class UserMessages {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,9 +34,11 @@ public class Message {
     @JoinColumn(name="job_id", nullable = false)
     private Job job;
 
-    @Column(length = 64000)
-    @Size(min = 2)
+//    @Column(length = 64000)
+//    @Size(min = 2)
     private String text;
 
-    private Date createdAt;
+    private LocalDateTime createdAt;
+
+    private String files;
 }

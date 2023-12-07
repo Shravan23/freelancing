@@ -65,6 +65,7 @@ public class BidController {
     public ResponseEntity<List<Bid>> getMyContracts() {
         User user = getUser();
         Set<Bid> contracts = new HashSet<Bid>(bidService.findByUser(user));
+        System.out.println("I'm doing here, doing nothing");
 
         List<Bid> bidsForMyJobs = bidService.findByUserJobs(user);
 
