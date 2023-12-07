@@ -61,7 +61,7 @@ public class BidController {
     }
 
     @GetMapping("/myjobs")
-    @PreAuthorize("hasAuthority('ROLE_FREELANCER')")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<List<Bid>> getMyContracts() {
         User user = getUser();
         Set<Bid> contracts = new HashSet<Bid>(bidService.findByUser(user));
