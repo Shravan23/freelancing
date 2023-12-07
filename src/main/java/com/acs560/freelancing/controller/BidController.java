@@ -2,6 +2,7 @@ package com.acs560.freelancing.controller;
 
 import com.acs560.freelancing.dto.BidRequest;
 import com.acs560.freelancing.model.Bid;
+import com.acs560.freelancing.model.Job;
 import com.acs560.freelancing.model.User;
 import com.acs560.freelancing.service.BidService;
 import com.acs560.freelancing.service.JobService;
@@ -53,11 +54,14 @@ public class BidController {
         if(! saved ) {
             throw new Exception("Bid can't be saved!");
         }
+        Job job = bid.getJob();
+        job.setStatus(Job.JobStatus.ACCEPTED);
+        jobService.addJob(job);
         return ResponseEntity.ok("Accepted the Bid: "+bidId);
     }
 
-    @GetMapping("/myContracts")
-    @PreAuthorize("hasAuthority('ROLE_CLIENT')")
+    @GetMapping("/myjobs")
+    @PreAuthorize("hasAuthority('ROLE_FREELANCER')")
     public ResponseEntity<List<Bid>> getMyContracts() {
         User user = getUser();
         Set<Bid> contracts = new HashSet<Bid>(bidService.findByUser(user));
@@ -91,8 +95,12 @@ public class BidController {
             return ResponseEntity.ok("You can't close this bid, you're not the owner" + bidId);
         }
         bid.setClosed(1);
+        Job job = bid.getJob();
+        job.setStatus(Job.JobStatus.CLOSED);
+        jobService.addJob(job);
         return ResponseEntity.ok(bidService.saveBid(bid));
     }
+
 
     private Bid convertToEntity(BidRequest bidDto, String userName) {
         Bid bid = new Bid();

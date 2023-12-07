@@ -30,7 +30,7 @@ public class Message {
     private User receiver;
 
     @ManyToOne
-    @JoinColumn(name="job_id", nullable = true)
+    @JoinColumn(name="job_id", nullable = false)
     private Job job;
 
     @Column(length = 64000)

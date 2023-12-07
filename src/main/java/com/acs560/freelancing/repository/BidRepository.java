@@ -15,6 +15,8 @@ public interface BidRepository extends JpaRepository<Bid, Long> {
     List<Bid> findByJob(Job job);
     List<Bid> findByUser(User user);
 
+
+
     @Query("SELECT b"
             + " FROM Bid b"
             + " JOIN b.job j"
@@ -24,5 +26,6 @@ public interface BidRepository extends JpaRepository<Bid, Long> {
     List<Bid> findByClosedAndUser(int closed, User user);
 
     List<Bid> findByUserAndJob(User user, Job job);
+
 
 }

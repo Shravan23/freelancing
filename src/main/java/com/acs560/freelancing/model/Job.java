@@ -39,5 +39,15 @@ public class Job {
     @Column
     private LocalDateTime updatedAt;
 
+    public enum JobStatus {
+        ACCEPTED,
+        OPEN,
+        CLOSED
+    }
+    @Column
+    private JobStatus status = JobStatus.OPEN;
+
 }
+
+
 

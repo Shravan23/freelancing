@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -33,9 +34,16 @@ public class JobController {
     UserService userService;
 
     @GetMapping("/all")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<?> listJobs() {
 
-        List<Job> jobs = jobService.listJobs();
+        User user = getUser();
+        List<Job> jobs;
+        if(user.getRole().equals(User.Role.FREELANCER)) {
+            jobs = jobService.listJobs();
+        } else {
+            jobs = jobService.listJobsByUserId(user.getUserId());
+        }
 
         return ResponseEntity.ok(jobs);
     }
@@ -131,21 +139,33 @@ public class JobController {
     }
 
     @GetMapping("/bids/{jobId}")
-    @PreAuthorize("hasAuthority('ROLE_CLIENT')")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<?> viewBids( @PathVariable("jobId") long jobId) {
 
         Job job = jobService.getJob(jobId);
 
         User user = getUser();
+        List<Bid> bids = new ArrayList<>();
 
-        if( job == null || job.getAuthor().getUserId() != user.getUserId() ) {
-            System.out.println("Job not found or you don't have privileges");
+        if( job == null) {
+//            System.out.println("Job not found or you don't have privileges");
             return ResponseEntity.ok("Bad Request, No jobs found");
         }
+        if ( job.getAuthor().getUserId() != user.getUserId() ) {
+            bids.add(bidService.getUsersBidByJob(user,job));
+            return ResponseEntity.ok(bids);
+        }
 
-        List<Bid> bids = bidService.findByJob(job);
+         bids = bidService.findByJob(job);
 
         return ResponseEntity.ok(bids);
+    }
+
+    @GetMapping("/delete/{jobId}")
+    @PreAuthorize("hasAuthority('ROLE_CLIENT')")
+    public ResponseEntity<?> deleteJob(@PathVariable("jobId") long jobId) {
+        jobService.deleteJob(jobId);
+        return ResponseEntity.ok("Deleted Successfully JobId: " + jobId);
     }
 
     private User getUser() {

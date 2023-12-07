@@ -57,7 +57,7 @@ public class AuthenticationController {
             throw new BadCredentialsException("Invalid credentials");
         }
         String token = jwtTokenProvider.createToken(user.getUsername(), user.getRole());
-        return ResponseEntity.ok(new AuthenticationResponse(token));
+        return ResponseEntity.ok(new AuthenticationResponse(token, user.getRole()));
     }
 
     /**

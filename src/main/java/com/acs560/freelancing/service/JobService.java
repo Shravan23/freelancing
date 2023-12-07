@@ -16,6 +16,7 @@ public class JobService {
 
     public Job getJob(Long jobId) {
         return jobRepository.findById(jobId).get();
+
     }
 
     public Job addJob(Job job) {
@@ -38,6 +39,14 @@ public class JobService {
 
     public List<Job> findHiredJobsByClient (User user) {
         return jobRepository.findByAuthorAndHired(user);
+    }
+
+    public void deleteJob(Long jobId) {
+        jobRepository.deleteById(jobId);
+    }
+
+    public List<Job> listJobsByUserId(Long userId) {
+        return jobRepository.findByAuthor_UserId(userId);
     }
 
 

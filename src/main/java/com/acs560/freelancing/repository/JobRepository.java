@@ -20,6 +20,9 @@ public interface JobRepository extends JpaRepository<Job, Long> {
             + " WHERE j.author = :user AND b.accepted = 1")
     List<Job> findByAuthorAndHired(@Param("user") User user);
 
+        List<Job> findByAuthor_UserId(Long userId);
+
+
 
 }
 

@@ -68,4 +68,8 @@ public class BidService {
         return bidRepository.findByClosedAndUser(closed, user);
     }
 
+    public void deleteBid(Long bidId) {
+         bidRepository.deleteById(bidId);
+    }
+
 }
