@@ -35,8 +35,8 @@ public class MessageController {
     public ResponseEntity<List<MessageResponse>> getMessages(@PathVariable Long jobId) {
         List<UserMessages> userMessages = messageService.getMessageOfRoom(jobId);
         List<MessageResponse> messageResponses = new ArrayList<>();
-        MessageResponse messageResponse = new MessageResponse();
         for(UserMessages eachmessage: userMessages) {
+            MessageResponse messageResponse = new MessageResponse();
             messageResponse.setContent(eachmessage.getText());
             messageResponse.setDate(eachmessage.getCreatedAt());
             messageResponse.setSenderId(eachmessage.getSender().getUserId());
